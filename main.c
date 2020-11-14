@@ -23,16 +23,14 @@
 #   define CLEAR_SCREEN puts("\x1b[H\x1b[2J");
 #endif
 
-void main()
+int main()
 {
     listaPaciente lp;
-    pilhaOcorrencia ocorrencias;
     int opc = 0;
 
     setlocale(LC_ALL, "Portuguese");
 
     cria(&lp);
-    criaOcorrencias(&ocorrencias);
 
     do
     {
@@ -67,10 +65,8 @@ void main()
             break;
 
             case 3:
-                menuOcorrencias();
-                // encontra-se abaixo,
-                // neste arquivo mesmo
-                // por ser apenas um menu
+
+
             break;
 
             case 4:
@@ -95,4 +91,6 @@ void main()
         }
 
     }while(opc != 6);
+    
+  return 0;
 }

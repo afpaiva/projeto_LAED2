@@ -9,6 +9,8 @@
 #include <string.h>
 #include "registro.h"
 
+int validaData(int, int, int);
+
 void pause()
 {
     printf("\nTecle enter para continuar....\n");
@@ -22,14 +24,10 @@ void cria(listaPaciente *lp)
     return;
 };
 
-void criaOcorrencias(pilhaOcorrencia *ocorrencias)
-{
-    ocorrencias->topo = NULL;
-}
-
 int  cadastraPaciente(listaPaciente *lp)
 {
     struct no *aux;
+    int valida = 0;
 
     aux = (struct no*) malloc(sizeof(struct no));
 
@@ -44,28 +42,44 @@ int  cadastraPaciente(listaPaciente *lp)
         printf("\nNome: ");
         scanf(" %30[^\n]",aux->p.Nome_paciente);
         getchar();
+
         printf("\nIdade: ");
         scanf("%d",&aux->p.Idade);
+
         printf("\nTelefone 1: ");
-        scanf("%d",&aux->p.Telefone);
+        scanf(" %20[^\n]",aux->p.Telefone);
+        getchar();
+
         printf("\nCep: ");
         scanf("%d",&aux->p.Cep);
+
         printf("\nNumero: ");
         scanf("%d",&aux->p.Numero_casa);
+
         printf("\nResumo: ");
         scanf(" %150[^\n]",aux->p.Resumo);
         getchar();
+
         printf("\nGravidade: ");
         scanf("%d",&aux->p.Gravidade);
+
         printf("\nTelefone para contato de emergencia: ");
-        scanf("%d",&aux->p.Contato_emergencia);
+        scanf(" %20[^\n]",aux->p.Contato_emergencia);
+        getchar();
+
         printf("\nNome do contato de emergencia: ");
         scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
         getchar();
-        printf("\nData do Atendimento [dd/mm/aaaa] :");
-        scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
+
+        do { // ANDRE: validacao de data - ver funcao validaData()
+          printf("\nData do Atendimento [dd/mm/aaaa] :");
+          scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
+          valida = validaData(aux->p.Dia,aux->p.Mes,aux->p.Ano);
+        } while (!valida);
+        
         printf("\nHora do atendimento [00:00] :");
         scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
+        
         printf("\n..............................\n");
 
         lp->inicio = aux;
@@ -77,26 +91,38 @@ int  cadastraPaciente(listaPaciente *lp)
     printf("\nNome: ");
     scanf(" %30[^\n]",aux->p.Nome_paciente);
     getchar();
+
     printf("\nIdade: ");
     scanf("%d",&aux->p.Idade);
+
     printf("\nTelefone 1: ");
-    scanf("%d",&aux->p.Telefone);
+    scanf(" %20[^\n]",aux->p.Telefone);
+    getchar();
+
     printf("\nCep: ");
     scanf("%d",&aux->p.Cep);
+
     printf("\nNumero: ");
     scanf("%d",&aux->p.Numero_casa);
+
     printf("\nResumo: ");
     scanf(" %150[^\n]",aux->p.Resumo);
     getchar();
+
     printf("\nGravidade: ");
     scanf("%d",&aux->p.Gravidade);
+
     printf("\nTelefone para contato de emergencia: ");
-    scanf("%d",&aux->p.Contato_emergencia);
+    scanf(" %20[^\n]",aux->p.Contato_emergencia);
+    getchar();
+    
     printf("\nNome do contato de emergencia: ");
     scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
     getchar();
+
     printf("\nData do Atendimento [dd/mm/aaaa] :");
     scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
+
     printf("\nHora do atendimento [00:00] :");
     scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
     printf("\n..............................\n");
@@ -156,7 +182,7 @@ int  cadastraPaciente(listaPaciente *lp)
             }
             else if(aux->p.Hora == lp->inicio->p.Hora)
             {
-                printf("\nHorario ja ocupado, marque outro queridinho\n")
+                printf("\nHorario ja ocupado, marque outro queridinho\n");
             }
         }
     }
@@ -187,12 +213,12 @@ void mostraPacientes(listaPaciente lp)
             else if (aux->p.Gravidade == 2) printf("\nNome: %s **", aux->p.Nome_paciente);
             else printf("\nNome: %s ***", aux->p.Nome_paciente);
             printf("\nIdade:      %d", aux->p.Idade);
-            printf("\nTelefone:   %d", aux->p.Telefone);
+            printf("\nTelefone:   %s", aux->p.Telefone);
             printf("\nCep:        %d", aux->p.Cep);
             printf("\nNumero:     %d", aux->p.Numero_casa);
             printf("\nResumo: %s", aux->p.Resumo);
             //printf("\nGravidade:  %d", aux->p.Gravidade); para teste
-            printf("\nContato de emergencia: %d", aux->p.Contato_emergencia);
+            printf("\nContato de emergencia: %s", aux->p.Contato_emergencia);
             printf("\nNome do contato de emergencia: %s", aux->p.Nome_contato_emergencia);
             aux = aux->proximo;
             printf("\n.........................................\n");
@@ -239,4 +265,33 @@ void acessaAgenda(listaPaciente lp)
                 }while(aux!=lp.inicio);
         }
     }
+}
+
+int validaData(int dia, int mes, int ano){
+
+  if (ano > 2020 && ano < 2023)
+    if (mes < 13 && mes > 0){
+      if (mes == 1  ||
+          mes == 3  ||
+          mes == 5  ||
+          mes == 7  ||
+          mes == 8  ||
+          mes == 10 ||
+          mes == 12){
+        if (dia > 0 && dia < 32)
+          return 1;
+      }
+      if (mes == 2 ||
+          mes == 4 ||
+          mes == 6 ||
+          mes == 9 ||
+          mes == 11){
+        if (mes == 2 && (dia > 0 && dia < 30))
+          return 1;
+        if (dia > 0 && dia < 31)
+          return 1;
+      }
+    }
+  printf ("\nDigite uma data correta [dd/mm/aaa]");
+  return 0;
 }

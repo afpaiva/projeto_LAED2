@@ -13,12 +13,12 @@ typedef struct
 {
     char Nome_paciente[30];
     int Idade;
-    int Telefone;
+    char Telefone[20];
     int Cep;
     int Numero_casa;
     char Resumo[150];
     int Gravidade;
-    int Contato_emergencia;
+    char Contato_emergencia[20];
     char Nome_contato_emergencia[30];
     int Dia;
     int Mes;
@@ -41,16 +41,3 @@ typedef struct
     struct no *fim;
 
 } listaPaciente;
-
-// PILHA DE OCORRÊNCIAS
-
-struct noPOcorrencia
-{
-    int dado;
-    struct noPOcorrencia *proximo;
-};
-
-typedef struct
-{
-    struct noPOcorrencia *topo;
-} pilhaOcorrencia;
