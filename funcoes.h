@@ -8,8 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "registro.h"
+#include "cores.h"
 
 int validaData(int, int, int);
+int validaHorario(int, int);
+int retornaInt(char *);
 
 void pause()
 {
@@ -28,6 +31,8 @@ int  cadastraPaciente(listaPaciente *lp)
 {
     struct no *aux;
     int valida = 0;
+    char validaInt[10];
+    for (int i = 0; i < 10; i++) validaInt[i] = 'x';
 
     aux = (struct no*) malloc(sizeof(struct no));
 
@@ -43,25 +48,40 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %30[^\n]",aux->p.Nome_paciente);
         getchar();
 
-        printf("\nIdade: ");
-        scanf("%d",&aux->p.Idade);
+        /* a função retornaInt recebe um vetor e
+        retorna um INT com os valores. Para caso o usuário
+        escape um caracter na digitação        
+        */
+        printf("\nIdade: "); // ANDRE: validação de entrada de INT
+        scanf(" %10[^\n]",validaInt);
+        aux->p.Idade = retornaInt(validaInt);
 
         printf("\nTelefone 1: ");
         scanf(" %20[^\n]",aux->p.Telefone);
         getchar();
 
         printf("\nCep: ");
-        scanf("%d",&aux->p.Cep);
+        scanf(" %10[^\n]",aux->p.Cep);
 
-        printf("\nNumero: ");
-        scanf("%d",&aux->p.Numero_casa);
+        printf("\nNumero: "); // ANDRE: validação de entrada de INT
+        scanf(" %10[^\n]", validaInt);
+        aux->p.Numero_casa = retornaInt(validaInt);
 
         printf("\nResumo: ");
         scanf(" %150[^\n]",aux->p.Resumo);
         getchar();
 
-        printf("\nGravidade: ");
-        scanf("%d",&aux->p.Gravidade);
+        do{ // ANDRE: validação
+          printf("\nGravidade [1, 2 ou 3]: ");
+          scanf("%d",&aux->p.Gravidade);
+          if (aux->p.Gravidade == 1 ||
+              aux->p.Gravidade == 2 ||
+              aux->p.Gravidade == 3 )
+              valida = 1;
+          red();
+          if (!valida) printf ("\nA gravidadade deve ser 1, 2 ou 3");
+          reset_cores();
+        } while (!valida);
 
         printf("\nTelefone para contato de emergencia: ");
         scanf(" %20[^\n]",aux->p.Contato_emergencia);
@@ -71,15 +91,17 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
         getchar();
 
-        do { // ANDRE: validacao de data - ver funcao validaData()
+        do { // ANDRE: validacao da entrada - ver funcao validaData()
           printf("\nData do Atendimento [dd/mm/aaaa] :");
           scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
           valida = validaData(aux->p.Dia,aux->p.Mes,aux->p.Ano);
         } while (!valida);
         
-        printf("\nHora do atendimento [00:00] :");
-        scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
-        
+        do { // ANDRE: validacao da entrada - ver funcao validaHorario()
+          printf("\nHora do atendimento [00:00] :");
+          scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
+          valida = validaHorario(aux->p.Hora,aux->p.Minuto);
+        } while (!valida);
         printf("\n..............................\n");
 
         lp->inicio = aux;
@@ -93,24 +115,35 @@ int  cadastraPaciente(listaPaciente *lp)
     getchar();
 
     printf("\nIdade: ");
-    scanf("%d",&aux->p.Idade);
+    scanf(" %10[^\n]",validaInt);
+    aux->p.Idade = retornaInt(validaInt);
 
     printf("\nTelefone 1: ");
     scanf(" %20[^\n]",aux->p.Telefone);
     getchar();
 
     printf("\nCep: ");
-    scanf("%d",&aux->p.Cep);
+    scanf(" %10[^\n]",aux->p.Cep);
 
     printf("\nNumero: ");
-    scanf("%d",&aux->p.Numero_casa);
+    scanf(" %10[^\n]", validaInt);
+    aux->p.Numero_casa = retornaInt(validaInt);
 
     printf("\nResumo: ");
     scanf(" %150[^\n]",aux->p.Resumo);
     getchar();
 
-    printf("\nGravidade: ");
-    scanf("%d",&aux->p.Gravidade);
+    do{ // ANDRE: validação
+      printf("\nGravidade [1, 2 ou 3]: ");
+      scanf("%d",&aux->p.Gravidade);
+      if (aux->p.Gravidade == 1 ||
+          aux->p.Gravidade == 2 ||
+          aux->p.Gravidade == 3 )
+          valida = 1;
+      red();
+      if (!valida) printf ("\nA gravidadade deve ser 1, 2 ou 3");
+      reset_cores();
+    } while (!valida);
 
     printf("\nTelefone para contato de emergencia: ");
     scanf(" %20[^\n]",aux->p.Contato_emergencia);
@@ -120,10 +153,10 @@ int  cadastraPaciente(listaPaciente *lp)
     scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
     getchar();
 
-    printf("\nData do Atendimento [dd/mm/aaaa] :");
+    printf("\nData do Atendimento [dd/mm/aaaa]: ");
     scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
 
-    printf("\nHora do atendimento [00:00] :");
+    printf("\nHora do atendimento [00:00]: ");
     scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
     printf("\n..............................\n");
 
@@ -214,7 +247,7 @@ void mostraPacientes(listaPaciente lp)
             else printf("\nNome: %s ***", aux->p.Nome_paciente);
             printf("\nIdade:      %d", aux->p.Idade);
             printf("\nTelefone:   %s", aux->p.Telefone);
-            printf("\nCep:        %d", aux->p.Cep);
+            printf("\nCep:        %s", aux->p.Cep);
             printf("\nNumero:     %d", aux->p.Numero_casa);
             printf("\nResumo: %s", aux->p.Resumo);
             //printf("\nGravidade:  %d", aux->p.Gravidade); para teste
@@ -269,7 +302,7 @@ void acessaAgenda(listaPaciente lp)
 
 int validaData(int dia, int mes, int ano){
 
-  if (ano > 2020 && ano < 2023)
+  if (ano > 2019 && ano < 2024)
     if (mes < 13 && mes > 0){
       if (mes == 1  ||
           mes == 3  ||
@@ -292,6 +325,74 @@ int validaData(int dia, int mes, int ano){
           return 1;
       }
     }
-  printf ("\nDigite uma data correta [dd/mm/aaa]");
+  red();
+  printf ("Data inválida, se liga colega, digite novamente");
+  reset_cores();
   return 0;
+}
+
+int validaHorario(int hora, int minuto){
+
+  if (hora > -1 && hora < 24)
+    if (minuto > -1 && minuto < 60)
+      return 1;
+
+  red();
+  printf ("Horário inválido, com atenção você consegue");
+  reset_cores();
+  return 0;
+}
+
+int retornaInt(char *validaInt){
+
+  int i, a = 1, result = 0, ok = 0;
+
+  for (i = 0; i < 10; i++){
+    if (validaInt[9-i] == '0'){
+      result = result + (a * 0);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '1'){
+      result = result + (a * 1);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '2'){
+      result = result + (a * 2);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '3'){
+      result = result + (a * 3);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '4'){
+      result = result + (a * 4);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '5'){
+      result = result + (a * 5);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '6'){
+      result = result + (a * 6);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '7'){
+      result = result + (a * 7);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '8'){
+      result = result + (a * 8);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '9'){
+      result = result + (a * 9);
+      ok = 1;
+    }
+    if (ok){
+       a = a * 10;
+       if (a == 1) a = 0;
+    }
+    ok = 0;
+  }
+  return result;
 }
