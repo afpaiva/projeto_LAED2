@@ -14,7 +14,7 @@ typedef struct
     char Nome_paciente[30];
     int Idade;
     char Telefone[20];
-    int Cep;
+    char Cep[10];
     int Numero_casa;
     char Resumo[150];
     int Gravidade;
