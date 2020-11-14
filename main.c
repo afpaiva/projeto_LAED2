@@ -10,7 +10,7 @@
 //10/11
 //DEBORAH
 
-//gcc -o inicial inicial.c registro.h funcoes.h
+//gcc -Wall -o main main.c
 
 #include <stdio.h>
 #include <stdlib.h>
