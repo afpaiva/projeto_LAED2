@@ -10,6 +10,7 @@
 #include "registro.h"
 
 int validaData(int, int, int);
+int validaHorario(int, int);
 
 void pause()
 {
@@ -77,9 +78,11 @@ int  cadastraPaciente(listaPaciente *lp)
           valida = validaData(aux->p.Dia,aux->p.Mes,aux->p.Ano);
         } while (!valida);
         
-        printf("\nHora do atendimento [00:00] :");
-        scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
-        
+        do {
+          printf("\nHora do atendimento [00:00] :");
+          scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
+          valida = validaHorario(aux->p.Hora,aux->p.Minuto);
+        } while (!valida);
         printf("\n..............................\n");
 
         lp->inicio = aux;
@@ -269,7 +272,7 @@ void acessaAgenda(listaPaciente lp)
 
 int validaData(int dia, int mes, int ano){
 
-  if (ano > 2020 && ano < 2023)
+  if (ano > 2019 && ano < 2024)
     if (mes < 13 && mes > 0){
       if (mes == 1  ||
           mes == 3  ||
@@ -292,6 +295,10 @@ int validaData(int dia, int mes, int ano){
           return 1;
       }
     }
-  printf ("\nDigite uma data correta [dd/mm/aaa]");
+  printf ("Data inválida");
   return 0;
+}
+
+int validaHorario(int hora, int minuto){
+  
 }
