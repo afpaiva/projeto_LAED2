@@ -10,6 +10,9 @@
 //10/11
 //DEBORAH
 
+//14/11
+//ANDRE
+
 //gcc -Wall -o main main.c
 
 #include <stdio.h>
@@ -53,33 +56,37 @@ int main()
 
     switch(opc)
         {
-            case 1:
+            case 1: // marcar consulta
                 CLEAR_SCREEN;
                 cadastraPaciente(&lp);
             break;
 
-            case 2:
+            case 2: // acessar agenda
                 CLEAR_SCREEN;
                 acessaAgenda(lp);
                 pause();
             break;
 
-            case 3:
+            case 3: // ocorrencias
 
 
             break;
 
-            case 4:
+            case 4: // listar pacientes
                 CLEAR_SCREEN;
                 mostraPacientes(lp);
                 pause();
             break;
 
-            case 5:
+            case 5: // editar ocorrencias
                 CLEAR_SCREEN;
             break;
 
-            case 6:
+            case 6: // sobre
+                CLEAR_SCREEN;
+            break;
+
+            case 7: // sair
                 CLEAR_SCREEN;
                 printf("\nPrograma encerrado......\n");
             break;

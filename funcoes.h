@@ -1,9 +1,15 @@
 //TRABALHO C
 //FUNÇÕES
+
 //18/10
 //DEBORAH
+
 //10/11
 //DEBORAH
+
+//14/11
+//ANDRE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
