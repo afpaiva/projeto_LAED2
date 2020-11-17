@@ -27,4 +27,5 @@ void white(void) {
 
 void reset_cores(void) {
     printf("\033[0m");
+    white();
 }

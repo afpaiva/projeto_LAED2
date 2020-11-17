@@ -1,19 +1,32 @@
 //TRABALHO C
 //FUNÇÕES
+
 //18/10
 //DEBORAH
+
 //10/11
 //DEBORAH
+
+//14/11
+//ANDRE
+
+//17/11
+//LUCAS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "registro.h"
+#include "cores.h"
 
 int validaData(int, int, int);
+int validaHorario(int, int);
+int retornaInt(char *);
 
 void pause()
 {
-    printf("\nTecle enter para continuar....\n");
+    pink();
+    printf("\nTecle enter para continuar...\n");
     getchar(); getchar();
 }
 
@@ -28,58 +41,95 @@ int  cadastraPaciente(listaPaciente *lp)
 {
     struct no *aux;
     int valida = 0;
+    char validaInt[10];
+    for (int i = 0; i < 10; i++) validaInt[i] = 'x';
 
     aux = (struct no*) malloc(sizeof(struct no));
 
     if (aux == NULL) return 0;
 
-    printf("\n..............................\n");
-    printf("\n\tMarcar Consulta\n");
-    printf("\n..............................\n");
+    blue();
+    printf("\nMarcar Consulta\n");
+    reset_cores();
 
     if (lp->inicio == NULL)
-    {
-        printf("\nNome: ");
+    {   
+        blue();
+        printf("\nNome: ");reset_cores();
         scanf(" %30[^\n]",aux->p.Nome_paciente);
         getchar();
 
-        printf("\nIdade: ");
-        scanf("%d",&aux->p.Idade);
-
-        printf("\nTelefone 1: ");
+        /* a função retornaInt recebe um vetor e
+        retorna um INT com os valores. Para caso o usuário
+        escape um caracter na digitação        
+        */
+        blue();
+        printf("\nIdade: "); // ANDRE: validação de entrada de INT
+        reset_cores();
+        scanf(" %10[^\n]",validaInt);
+        aux->p.Idade = retornaInt(validaInt);
+        
+        blue();
+        printf("\nTelefone 1: ");reset_cores();
         scanf(" %20[^\n]",aux->p.Telefone);
         getchar();
+        
+        blue();
+        printf("\nCep: ");reset_cores();
+        scanf(" %10[^\n]",aux->p.Cep);
 
-        printf("\nCep: ");
-        scanf("%d",&aux->p.Cep);
+        blue();
+        printf("\nNumero: "); // ANDRE: validação de entrada de INT
+        reset_cores();
+        scanf(" %10[^\n]", validaInt);
+        aux->p.Numero_casa = retornaInt(validaInt);
 
-        printf("\nNumero: ");
-        scanf("%d",&aux->p.Numero_casa);
-
-        printf("\nResumo: ");
+        blue();
+        printf("\nResumo: ");reset_cores();
         scanf(" %150[^\n]",aux->p.Resumo);
         getchar();
 
-        printf("\nGravidade: ");
-        scanf("%d",&aux->p.Gravidade);
-
+        do{ // ANDRE: validação
+          blue();
+          printf("\nGravidade [1, 2 ou 3]: ");
+          reset_cores();red();
+          scanf("%d",&aux->p.Gravidade);
+          if (aux->p.Gravidade == 1 ||
+              aux->p.Gravidade == 2 ||
+              aux->p.Gravidade == 3 )
+              valida = 1;
+          red();
+          if (!valida) printf ("\nA gravidadade deve ser 1, 2 ou 3");
+          reset_cores();
+        } while (!valida);
+        
+        blue();
         printf("\nTelefone para contato de emergencia: ");
+        reset_cores();
         scanf(" %20[^\n]",aux->p.Contato_emergencia);
         getchar();
 
+        blue();
         printf("\nNome do contato de emergencia: ");
+        reset_cores();
         scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
         getchar();
 
-        do { // ANDRE: validacao de data - ver funcao validaData()
+        do { // ANDRE: validacao da entrada - ver funcao validaData()
+        blue();
           printf("\nData do Atendimento [dd/mm/aaaa] :");
+        reset_cores();
           scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
           valida = validaData(aux->p.Dia,aux->p.Mes,aux->p.Ano);
         } while (!valida);
         
-        printf("\nHora do atendimento [00:00] :");
-        scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
-        
+        do { // ANDRE: validacao da entrada - ver funcao validaHorario()
+        blue();
+          printf("\nHora do atendimento [00:00] :");
+        reset_cores();
+          scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
+          valida = validaHorario(aux->p.Hora,aux->p.Minuto);
+        } while (!valida);
         printf("\n..............................\n");
 
         lp->inicio = aux;
@@ -88,42 +138,75 @@ int  cadastraPaciente(listaPaciente *lp)
         aux->anterior = lp->fim;
         return 1;
     }
+    blue();
     printf("\nNome: ");
+    reset_cores();
     scanf(" %30[^\n]",aux->p.Nome_paciente);
     getchar();
 
+    blue();
     printf("\nIdade: ");
-    scanf("%d",&aux->p.Idade);
+    reset_cores();
+    scanf(" %10[^\n]",validaInt);
+    aux->p.Idade = retornaInt(validaInt);
 
+    blue();
     printf("\nTelefone 1: ");
+    reset_cores();
     scanf(" %20[^\n]",aux->p.Telefone);
     getchar();
 
+    blue();
     printf("\nCep: ");
-    scanf("%d",&aux->p.Cep);
+    reset_cores();
+    scanf(" %10[^\n]",aux->p.Cep);
 
+    blue();
     printf("\nNumero: ");
-    scanf("%d",&aux->p.Numero_casa);
+    reset_cores();
+    scanf(" %10[^\n]", validaInt);
+    aux->p.Numero_casa = retornaInt(validaInt);
 
+    blue();
     printf("\nResumo: ");
+    reset_cores();
     scanf(" %150[^\n]",aux->p.Resumo);
     getchar();
 
-    printf("\nGravidade: ");
-    scanf("%d",&aux->p.Gravidade);
+    do{ // ANDRE: validação
+    blue();
+      printf("\nGravidade [1, 2 ou 3]: ");
+    reset_cores();
+      scanf("%d",&aux->p.Gravidade);
+      if (aux->p.Gravidade == 1 ||
+          aux->p.Gravidade == 2 ||
+          aux->p.Gravidade == 3 )
+          valida = 1;
+      red();
+      if (!valida) printf ("\nA gravidadade deve ser 1, 2 ou 3");
+      reset_cores();
+    } while (!valida);
 
+    blue();
     printf("\nTelefone para contato de emergencia: ");
+    reset_cores();
     scanf(" %20[^\n]",aux->p.Contato_emergencia);
     getchar();
     
+    blue();
     printf("\nNome do contato de emergencia: ");
+    reset_cores();
     scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
     getchar();
 
-    printf("\nData do Atendimento [dd/mm/aaaa] :");
+    blue();
+    printf("\nData do Atendimento [dd/mm/aaaa]: ");
+    reset_cores();
     scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
 
-    printf("\nHora do atendimento [00:00] :");
+    blue();
+    printf("\nHora do atendimento [00:00]: ");
+    reset_cores();
     scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
     printf("\n..............................\n");
 
@@ -182,11 +265,12 @@ int  cadastraPaciente(listaPaciente *lp)
             }
             else if(aux->p.Hora == lp->inicio->p.Hora)
             {
+              red();
                 printf("\nHorario ja ocupado, marque outro queridinho\n");
+              reset_cores();
             }
         }
     }
-
     return 1;
 }
 
@@ -194,14 +278,15 @@ void mostraPacientes(listaPaciente lp)
 {
     struct no *aux;
 
-    printf("\n..............................\n");
-    printf("\n\tLista de Pacientes\n");
-    printf("\n..............................\n");
+    blue();
+    printf("\nLista de Pacientes\n");
+    reset_cores();
 
     if (lp.inicio == NULL)
     {
+        red();
         printf("\nLista vazia...\n");
-        printf("\n..............................\n");
+        reset_cores();
     }
 
     else{
@@ -214,7 +299,7 @@ void mostraPacientes(listaPaciente lp)
             else printf("\nNome: %s ***", aux->p.Nome_paciente);
             printf("\nIdade:      %d", aux->p.Idade);
             printf("\nTelefone:   %s", aux->p.Telefone);
-            printf("\nCep:        %d", aux->p.Cep);
+            printf("\nCep:        %s", aux->p.Cep);
             printf("\nNumero:     %d", aux->p.Numero_casa);
             printf("\nResumo: %s", aux->p.Resumo);
             //printf("\nGravidade:  %d", aux->p.Gravidade); para teste
@@ -232,14 +317,15 @@ void acessaAgenda(listaPaciente lp)
     char Nome_mes[12][10] = {"Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
     int i;
 
-    printf("\n..............................\n");
-    printf("\n\tAgenda\n");
-    printf("\n..............................\n");
+    blue();
+    printf("\nAgenda\n");
+    reset_cores();
 
     if (lp.inicio == NULL)
     {
+        blue();
         printf("\nAgenda vazia...\n");
-        printf("\n..............................\n");
+        reset_cores();
     }
 
     //POR DEBORAH: vou mexer depois nos meses que não tem nada marcado
@@ -248,7 +334,9 @@ void acessaAgenda(listaPaciente lp)
         for(i=0;i<12;i++)
         {
             aux = lp.inicio;
+            blue();
             printf("\n%s:\n",Nome_mes[i]);
+            reset_cores();
             printf("\n.........................................\n");
                 do
                 {
@@ -269,7 +357,7 @@ void acessaAgenda(listaPaciente lp)
 
 int validaData(int dia, int mes, int ano){
 
-  if (ano > 2020 && ano < 2023)
+  if (ano > 2019 && ano < 2024)
     if (mes < 13 && mes > 0){
       if (mes == 1  ||
           mes == 3  ||
@@ -292,6 +380,149 @@ int validaData(int dia, int mes, int ano){
           return 1;
       }
     }
-  printf ("\nDigite uma data correta [dd/mm/aaa]");
+  red();
+  printf ("Data inválida! Digite novamente.");
+  reset_cores();
   return 0;
+}
+
+int validaHorario(int hora, int minuto){
+
+  if (hora > -1 && hora < 24)
+    if (minuto > -1 && minuto < 60)
+      return 1;
+
+  red();
+  printf ("Horário inválido! Digite novamente.");
+  reset_cores();
+  return 0;
+}
+
+int retornaInt(char *validaInt){
+
+  int i, a = 1, result = 0, ok = 0;
+
+  for (i = 0; i < 10; i++){
+    if (validaInt[9-i] == '0'){
+      result = result + (a * 0);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '1'){
+      result = result + (a * 1);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '2'){
+      result = result + (a * 2);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '3'){
+      result = result + (a * 3);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '4'){
+      result = result + (a * 4);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '5'){
+      result = result + (a * 5);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '6'){
+      result = result + (a * 6);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '7'){
+      result = result + (a * 7);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '8'){
+      result = result + (a * 8);
+      ok = 1;
+    }
+    if (validaInt[9-i] == '9'){
+      result = result + (a * 9);
+      ok = 1;
+    }
+    if (ok){
+       a = a * 10;
+       if (a == 1) a = 0;
+    }
+    ok = 0;
+  }
+  return result;
+}
+
+/////////////////////////////////////
+// LUCAS ////////////////////////////
+/////////////////////////////////////
+
+void telaInicial()
+{
+system("clear");
+red();
+printf("      |________________________________\n");
+printf("|-----|'''''|''''|''''|''''|''''|''''|'##\\|__\n");
+printf("|- - -|  cc 6    5    4    3    2    1 ### __]==------------\n");
+printf("|-----|________________________________##/|\n");
+printf("      |''''''''''''''''''''''''''''''''''''\n");
+red();
+printf("\n      +  AGENDA MEDICA ELETRONICA  +\n");reset_cores();
+}
+
+void menuInicial()
+{
+    char *opcoes[] = {"Marcar consulta",
+                      "Acessar agenda",
+                      "Ocorrencias",
+                      "Lista pacientes",
+                      "Editar ocorrencias",
+                      "Sobre",
+                      "Sair"};
+
+    blue();
+    printf("\nMenu\n\n");
+    reset_cores();
+
+    for (int i = 0; i < 6; i++)
+    {
+        blue();
+        printf("%d) ", i + 1);
+        reset_cores();
+        white();
+        printf("%s\n", opcoes[i]);
+    }
+    blue(); printf("7) "); red(); printf("Sair\n\n");
+    reset_cores();
+}
+
+void opcaoSobre()
+{
+  char *devs[] = {"André Fonseca de Paiva",
+                  "Deborah Dalonso Frederico",
+                  "Fernando Thales Pereira",
+                  "Lucas Omar Andrade Leal"};
+  
+  char *profs[] = {"Joao Benedito",
+                   "Claudio Correa"};
+  pink();
+  printf("Desenvolvido por\n"); reset_cores();
+  for (int i = 0; i < 4; i++)
+  { white();
+    printf(" - %s\n",devs[i]);
+  }
+
+  printf("\n");
+
+  pink();
+  printf("Orientado por\n"); reset_cores();
+  for (int i = 0; i < 4; i++)
+  { white();
+    printf(" - %s\n",profs[i]);
+  }
+
+  printf("\n");
+
+  pink();
+  printf("O projeto\n"); reset_cores();
+  printf("  Projeto final referente à criação de uma aplicação\nvoltada ao cenário automatizado de agendamento de consultas\ntendo como base a gravidade e necessidade de atendimento ao paciente\n\n");
 }

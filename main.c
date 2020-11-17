@@ -10,6 +10,12 @@
 //10/11
 //DEBORAH
 
+//14/11
+//ANDRE
+
+//17/11
+//LUCAS
+
 //gcc -Wall -o main main.c
 
 #include <stdio.h>
@@ -31,66 +37,66 @@ int main()
     setlocale(LC_ALL, "Portuguese");
 
     cria(&lp);
-
+    
     do
     {
         CLEAR_SCREEN;
-        printf("\n...........................\n");
-        printf("\n AGENDA MÉDICA ELETRÔNICA:\n");
-        printf("\n...........................\n");
-        printf("\n\t  Menu:\n");
-        printf("\n...........................\n");
-        printf("\n1. Marcar consulta");
-        printf("\n2. Acessar agenda");
-        printf("\n3. Ocorrencias");
-        printf("\n4. Lista pacientes");
-        printf("\n5. Editar ocorrencias");
-        printf("\n6. Sobre");
-        printf("\n7. Sair\n");
-        printf("\nInforme a opção: ");
-        scanf("%d",&opc);
-        printf("\n...........................\n");
+        telaInicial();
+        menuInicial();
 
-    switch(opc)
+        yellow();
+        printf("Informe a opção: ");
+        blue();
+        scanf("%d", &opc);
+        reset_cores();
+
+        switch (opc)
         {
-            case 1:
+            case 1: // marcar consulta
                 CLEAR_SCREEN;
                 cadastraPaciente(&lp);
             break;
 
-            case 2:
+            case 2: // acessar agenda
                 CLEAR_SCREEN;
                 acessaAgenda(lp);
                 pause();
             break;
 
-            case 3:
-
-
+            case 3: // ocorrencias
             break;
 
-            case 4:
+            case 4: // listar pacientes
                 CLEAR_SCREEN;
                 mostraPacientes(lp);
                 pause();
             break;
 
-            case 5:
+            case 5: // editar ocorrencias
                 CLEAR_SCREEN;
             break;
 
-            case 6:
+            case 6: 
                 CLEAR_SCREEN;
-                printf("\nPrograma encerrado......\n");
+                opcaoSobre();
+                pause();
+            break;
+
+            case 7: // sair
+                CLEAR_SCREEN;
+                red();
+                printf("\nPrograma encerrado... Até logo!!! (∗ ･‿･)ﾉ゛\n\n");
+                exit(0);
             break;
 
             default:
                 CLEAR_SCREEN;
-                printf("\nOps....opção inválida... você está perdido amigo?\n");
+                red();
+                printf("\nOps... Opção inválida, escolha uma opção válida.\n");
                 pause();
         }
 
-    }while(opc != 6);
-    
+    }while(opc != 7);
+
   return 0;
 }
