@@ -22,6 +22,14 @@
 int validaData(int, int, int);
 int validaHorario(int, int);
 int retornaInt(char *);
+int comparaHorarios(int diaA, int mesA, int anoA, int horaA, int minutoA,
+                    int diaB, int mesB, int anoB, int horaB, int minutoB);
+    /*
+    comparaHorarios():
+    retorna 1 caso o tempo A seja passado em relação a B
+    retorna 0 caso os tempos sejam iguais
+    retorna -1 caso o tempo A seja futuro em relação a A
+    */
 
 void pause()
 {
@@ -42,6 +50,7 @@ int  cadastraPaciente(listaPaciente *lp)
     struct no *aux;
     int valida = 0;
     char validaInt[10];
+    int opc = 0;
     for (int i = 0; i < 10; i++) validaInt[i] = 'x';
 
     aux = (struct no*) malloc(sizeof(struct no));
@@ -59,10 +68,12 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %30[^\n]",aux->p.Nome_paciente);
         getchar();
 
-        /* a função retornaInt recebe um vetor e
+        /*
+        a função retornaInt() recebe um vetor-char e
         retorna um INT com os valores. Para caso o usuário
         escape um caracter na digitação        
         */
+
         blue();
         printf("\nIdade: "); // ANDRE: validação de entrada de INT
         reset_cores();
@@ -116,21 +127,33 @@ int  cadastraPaciente(listaPaciente *lp)
         getchar();
 
         do { // ANDRE: validacao da entrada - ver funcao validaData()
-        blue();
+          blue();
           printf("\nData do Atendimento [dd/mm/aaaa] :");
-        reset_cores();
+          reset_cores();
           scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
           valida = validaData(aux->p.Dia,aux->p.Mes,aux->p.Ano);
         } while (!valida);
         
-        do { // ANDRE: validacao da entrada - ver funcao validaHorario()
-        blue();
-          printf("\nHora do atendimento [00:00] :");
-        reset_cores();
-          scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
-          valida = validaHorario(aux->p.Hora,aux->p.Minuto);
-        } while (!valida);
-        printf("\n..............................\n");
+        do {
+          do { // ANDRE: validacao da entrada - ver funcao validaHorario()
+            blue();
+            printf("\nHora do atendimento [00:00] :");
+            reset_cores();
+            scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
+            valida = validaHorario(aux->p.Hora,aux->p.Minuto);
+          } while (!valida);
+          if (aux->p.Minuto < 30 && aux->p.Minuto > 0) aux->p.Minuto = 0;
+          else if (aux->p.Minuto >  30) aux->p.Minuto = 30;
+          else opc = 1;
+          if (opc != 1)
+          {
+            blue();
+            printf("\nPoderia ser às %d:%d? [1: aceitar] [0: novo horário] :", aux->p.Hora, aux->p.Minuto);
+            reset_cores();
+            scanf("%d", &opc);
+            blue();
+          }
+        } while (opc != 1);
 
         lp->inicio = aux;
         lp->fim = aux;
@@ -199,15 +222,35 @@ int  cadastraPaciente(listaPaciente *lp)
     scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
     getchar();
 
-    blue();
-    printf("\nData do Atendimento [dd/mm/aaaa]: ");
-    reset_cores();
-    scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
+    do { // ANDRE: validacao da entrada - ver funcao validaData()
+      blue();
+      printf("\nData do Atendimento [dd/mm/aaaa] :");
+      reset_cores();
+      scanf("%d/%d/%d",&aux->p.Dia,&aux->p.Mes,&aux->p.Ano);
+      valida = validaData(aux->p.Dia,aux->p.Mes,aux->p.Ano);
+    } while (!valida);
+        
+    do {
+      do { // ANDRE: validacao da entrada - ver funcao validaHorario()
+        blue();
+        printf("\nHora do atendimento [00:00] :");
+        reset_cores();
+        scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
+        valida = validaHorario(aux->p.Hora,aux->p.Minuto);
+      } while (!valida);
+      if (aux->p.Minuto < 30 && aux->p.Minuto > 0) aux->p.Minuto = 0;
+      else if (aux->p.Minuto >  30) aux->p.Minuto = 30;
+      else opc = 1;
+      if (opc != 1)
+      {
+        blue();
+        printf("\nPoderia ser às %d:%d? [1: aceitar] [0: novo horário] :", aux->p.Hora, aux->p.Minuto);
+        reset_cores();
+        scanf("%d", &opc);
+        blue();
+      }
+    } while (opc != 1);
 
-    blue();
-    printf("\nHora do atendimento [00:00]: ");
-    reset_cores();
-    scanf("%d:%d",&aux->p.Hora, &aux->p.Minuto);
     printf("\n..............................\n");
 
     //POR DEBORAH: esta ordenando por data... foi mexer para ordenar pelo grau também
@@ -388,12 +431,14 @@ int validaData(int dia, int mes, int ano){
 
 int validaHorario(int hora, int minuto){
 
-  if (hora > -1 && hora < 24)
+  if ((hora > 7 && hora < 12) || (hora > 12 && hora < 19))
     if (minuto > -1 && minuto < 60)
+    {
       return 1;
+    }
 
   red();
-  printf ("Horário inválido! Digite novamente.");
+  printf ("Não atendemos neste horário! Digite novamente.");
   reset_cores();
   return 0;
 }
@@ -525,4 +570,45 @@ void opcaoSobre()
   pink();
   printf("O projeto\n"); reset_cores();
   printf("  Projeto final referente à criação de uma aplicação\nvoltada ao cenário automatizado de agendamento de consultas\ntendo como base a gravidade e necessidade de atendimento ao paciente\n\n");
+}
+
+int comparaHorarios(int diaA, int mesA, int anoA, int horaA, int minutoA,
+                    int diaB, int mesB, int anoB, int horaB, int minutoB)
+{
+  if (anoA > anoB)
+    return 1;
+    else if (anoA < anoB)
+    return -1;
+  
+  if (anoA == anoB){
+    if (mesA > mesB)
+    return 1;
+    else if (anoA < anoB)
+    return -1;
+
+    if (mesA == mesB){
+      if (diaA > diaB)
+        return 1;
+        else if (diaA < diaB)
+        return -1;
+      
+      if (diaA == diaB){
+        if (horaA > horaB)
+        return 1;
+        else if (horaA < horaB)
+        return -1;
+
+        if (horaA == horaB){
+          if (minutoA > minutoB)
+          return 1;
+          else if (minutoA < minutoB)
+          return -1;
+
+          if (minutoA == minutoB);
+          return 0;
+        }
+      }
+    }
+  }
+  return -1;
 }
