@@ -1,18 +1,3 @@
-//TRABALHO C
-//FUNÇÕES
-
-//18/10
-//DEBORAH
-
-//10/11
-//DEBORAH
-
-//14/11
-//ANDRE
-
-//17/11
-//LUCAS
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -31,7 +16,7 @@ int comparaHorarios(int diaA, int mesA, int anoA, int horaA, int minutoA,
     retorna -1 caso o tempo A seja futuro em relação a A
     */
 
-void pause()
+void pausar()
 {
     pink();
     printf("\nTecle enter para continuar...\n");
@@ -75,7 +60,7 @@ int  cadastraPaciente(listaPaciente *lp)
         */
 
         blue();
-        printf("\nIdade: "); // ANDRE: validação de entrada de INT
+        printf("\nIdade: "); /* ANDRE: validação de entrada de INT */
         reset_cores();
         scanf(" %10[^\n]",validaInt);
         aux->p.Idade = retornaInt(validaInt);
@@ -90,7 +75,7 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %10[^\n]",aux->p.Cep);
 
         blue();
-        printf("\nNumero: "); // ANDRE: validação de entrada de INT
+        printf("\nNumero: "); /* ANDRE: validação de entrada de INT */
         reset_cores();
         scanf(" %10[^\n]", validaInt);
         aux->p.Numero_casa = retornaInt(validaInt);
@@ -100,7 +85,7 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %150[^\n]",aux->p.Resumo);
         getchar();
 
-        do{ // ANDRE: validação
+        do{ 
           blue();
           printf("\nGravidade [1, 2 ou 3]: ");
           reset_cores();red();
@@ -126,7 +111,7 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
         getchar();
 
-        do { // ANDRE: validacao da entrada - ver funcao validaData()
+        do { /* ANDRE: validacao da entrada - ver funcao validaData()*/
           blue();
           printf("\nData do Atendimento [dd/mm/aaaa] :");
           reset_cores();
@@ -135,7 +120,7 @@ int  cadastraPaciente(listaPaciente *lp)
         } while (!valida);
         
         do {
-          do { // ANDRE: validacao da entrada - ver funcao validaHorario()
+          do { 
             blue();
             printf("\nHora do atendimento [00:00] :");
             reset_cores();
@@ -196,7 +181,7 @@ int  cadastraPaciente(listaPaciente *lp)
     scanf(" %150[^\n]",aux->p.Resumo);
     getchar();
 
-    do{ // ANDRE: validação
+    do{ 
     blue();
       printf("\nGravidade [1, 2 ou 3]: ");
     reset_cores();
@@ -222,7 +207,7 @@ int  cadastraPaciente(listaPaciente *lp)
     scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
     getchar();
 
-    do { // ANDRE: validacao da entrada - ver funcao validaData()
+    do { 
       blue();
       printf("\nData do Atendimento [dd/mm/aaaa] :");
       reset_cores();
@@ -231,7 +216,7 @@ int  cadastraPaciente(listaPaciente *lp)
     } while (!valida);
         
     do {
-      do { // ANDRE: validacao da entrada - ver funcao validaHorario()
+      do { 
         blue();
         printf("\nHora do atendimento [00:00] :");
         reset_cores();
@@ -253,7 +238,7 @@ int  cadastraPaciente(listaPaciente *lp)
 
     printf("\n..............................\n");
 
-    //POR DEBORAH: esta ordenando por data... foi mexer para ordenar pelo grau também
+    /*POR DEBORAH: esta ordenando por data... foi mexer para ordenar pelo grau também*/
     if(aux->p.Mes < lp->inicio->p.Mes)
     {
         aux->anterior = lp->fim;
@@ -345,7 +330,7 @@ void mostraPacientes(listaPaciente lp)
             printf("\nCep:        %s", aux->p.Cep);
             printf("\nNumero:     %d", aux->p.Numero_casa);
             printf("\nResumo: %s", aux->p.Resumo);
-            //printf("\nGravidade:  %d", aux->p.Gravidade); para teste
+            /*printf("\nGravidade:  %d", aux->p.Gravidade); para teste */
             printf("\nContato de emergencia: %s", aux->p.Contato_emergencia);
             printf("\nNome do contato de emergencia: %s", aux->p.Nome_contato_emergencia);
             aux = aux->proximo;
@@ -371,7 +356,7 @@ void acessaAgenda(listaPaciente lp)
         reset_cores();
     }
 
-    //POR DEBORAH: vou mexer depois nos meses que não tem nada marcado
+    /*POR DEBORAH: vou mexer depois nos meses que não tem nada marcado*/
     else
     {
         for(i=0;i<12;i++)
@@ -497,9 +482,7 @@ int retornaInt(char *validaInt){
   return result;
 }
 
-/////////////////////////////////////
-// LUCAS ////////////////////////////
-/////////////////////////////////////
+/* LUCAS */
 
 void telaInicial()
 {

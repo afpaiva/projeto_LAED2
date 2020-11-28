@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Funções abaixo são para trocar as cores
+/* Funções abaixo são para trocar as cores */
 void pink(void) {
     printf("\033[1;35m");
 }

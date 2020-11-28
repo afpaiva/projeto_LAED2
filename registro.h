@@ -1,13 +1,8 @@
-//TRABALHO C
-//REGISTRO
-//18/10
-//DEBORAH
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// LISTA DE PACIENTES
+/* LISTA DE PACIENTES */
 
 typedef struct
 {
