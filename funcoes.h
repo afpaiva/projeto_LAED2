@@ -4,23 +4,24 @@
 #include "registro.h"
 #include "cores.h"
 
+int insereListaFake(listaPaciente *lp, int a);
 int validaData(int, int, int);
 int validaHorario(int, int);
 int retornaInt(char *);
 int comparaHorarios(int diaA, int mesA, int anoA, int horaA, int minutoA,
                     int diaB, int mesB, int anoB, int horaB, int minutoB);
-    /*
-    comparaHorarios():
-    retorna 1 caso o tempo A seja passado em relação a B
-    retorna 0 caso os tempos sejam iguais
-    retorna -1 caso o tempo A seja futuro em relação a A
-    */
+                    /*
+                    comparaHorarios():
+                    retorna 1 caso o tempo A seja passado em relação a B
+                    retorna 0 caso os tempos sejam iguais
+                    retorna -1 caso o tempo A seja futuro em relação a A
+                    */
 
 void pausar()
 {
     pink();
     printf("\nTecle enter para continuar...\n");
-    getchar(); getchar();
+    getchar();
 }
 
 void cria(listaPaciente *lp)
@@ -60,7 +61,7 @@ int  cadastraPaciente(listaPaciente *lp)
         */
 
         blue();
-        printf("\nIdade: "); /* ANDRE: validação de entrada de INT */
+        printf("\nIdade: ");
         reset_cores();
         scanf(" %10[^\n]",validaInt);
         aux->p.Idade = retornaInt(validaInt);
@@ -75,7 +76,7 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %10[^\n]",aux->p.Cep);
 
         blue();
-        printf("\nNumero: "); /* ANDRE: validação de entrada de INT */
+        printf("\nNumero: ");
         reset_cores();
         scanf(" %10[^\n]", validaInt);
         aux->p.Numero_casa = retornaInt(validaInt);
@@ -111,7 +112,7 @@ int  cadastraPaciente(listaPaciente *lp)
         scanf(" %30[^\n]",aux->p.Nome_contato_emergencia);
         getchar();
 
-        do { /* ANDRE: validacao da entrada - ver funcao validaData()*/
+        do {
           blue();
           printf("\nData do Atendimento [dd/mm/aaaa] :");
           reset_cores();
@@ -238,7 +239,6 @@ int  cadastraPaciente(listaPaciente *lp)
 
     printf("\n..............................\n");
 
-    /*POR DEBORAH: esta ordenando por data... foi mexer para ordenar pelo grau também*/
     if(aux->p.Mes < lp->inicio->p.Mes)
     {
         aux->anterior = lp->fim;
@@ -356,7 +356,6 @@ void acessaAgenda(listaPaciente lp)
         reset_cores();
     }
 
-    /*POR DEBORAH: vou mexer depois nos meses que não tem nada marcado*/
     else
     {
         for(i=0;i<12;i++)
@@ -482,8 +481,6 @@ int retornaInt(char *validaInt){
   return result;
 }
 
-/* LUCAS */
-
 void telaInicial()
 {
 system("clear");
@@ -552,7 +549,7 @@ void opcaoSobre()
 
   pink();
   printf("O projeto\n"); reset_cores();
-  printf("  Projeto final referente à criação de uma aplicação\nvoltada ao cenário automatizado de agendamento de consultas\ntendo como base a gravidade e necessidade de atendimento ao paciente\n\n");
+  printf("  Projeto final referente à criação de uma aplicação\n  voltada ao cenário automatizado de agendamento de consultas\n  tendo como base a gravidade e necessidade de atendimento ao paciente\n\n");
 }
 
 int comparaHorarios(int diaA, int mesA, int anoA, int horaA, int minutoA,
@@ -594,4 +591,273 @@ int comparaHorarios(int diaA, int mesA, int anoA, int horaA, int minutoA,
     }
   }
   return -1;
+}
+
+int insereListaFake(listaPaciente *lp, int a){
+  
+  struct no *aux;
+  aux = (struct no*) malloc(sizeof(struct no));
+  if (aux == NULL) return 0;
+
+  if (lp->inicio == NULL)
+  {   
+    strcpy(aux->p.Nome_paciente, "José da Silva");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Maria da Silva");
+    aux->p.Dia = 15;
+    aux->p.Mes = 12;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 8;
+    aux->p.Minuto = 0;
+
+    lp->inicio = aux;
+    lp->fim = aux;
+    aux->proximo = lp->inicio;
+    aux->anterior = lp->fim;
+    return 1;
+  }
+
+  if (a == 1){
+    strcpy(aux->p.Nome_paciente, "Lyana Lameira Peixoto");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Adriana Damasceno Pureza");
+    aux->p.Dia = 15;
+    aux->p.Mes = 10;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 8;
+    aux->p.Minuto = 30;
+  }
+  else if (a == 2){
+    strcpy(aux->p.Nome_paciente, "Lueji Moreira Amoedo");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Petra Robalo Belém");
+    aux->p.Dia = 15;
+    aux->p.Mes = 9;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 9;
+    aux->p.Minuto = 30;
+  }
+  else if (a == 3){
+    strcpy(aux->p.Nome_paciente, "Anita Antas Carvalhoso");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Stéphanie Sequeira Quirino");
+    aux->p.Dia = 15;
+    aux->p.Mes = 7;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 9;
+    aux->p.Minuto = 30;
+  }
+  else if (a == 4){
+    strcpy(aux->p.Nome_paciente, "Caetano Cerqueira Ferrão");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Daniela Carrasco Faia");
+    aux->p.Dia = 15;
+    aux->p.Mes = 7;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 10;
+    aux->p.Minuto = 0;
+  }
+  else if (a == 5){
+    strcpy(aux->p.Nome_paciente, "Santhiago Onofre Lins");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Camilo Vides Mascarenhas");
+    aux->p.Dia = 15;
+    aux->p.Mes = 5;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 9;
+    aux->p.Minuto = 30;
+  }
+  else if (a == 6){
+    strcpy(aux->p.Nome_paciente, "Dominique Alvim Pontes");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Brayan Breia Quinteiro");
+    aux->p.Dia = 15;
+    aux->p.Mes = 4;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 9;
+    aux->p.Minuto = 30;
+  }
+  else if (a == 7){
+    strcpy(aux->p.Nome_paciente, "Aline Vieira");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Mirian Estrela Boga");
+    aux->p.Dia = 15;
+    aux->p.Mes = 3;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 9;
+    aux->p.Minuto = 30;
+  }
+  else if (a == 8){
+    strcpy(aux->p.Nome_paciente, "Afonso Bivar Adão");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Liany Novais Ferraço");
+    aux->p.Dia = 15;
+    aux->p.Mes = 3;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 10;
+    aux->p.Minuto = 0;
+  }
+  else if (a == 9){
+    strcpy(aux->p.Nome_paciente, "Dilnura Escobar Barrocas");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Breno Campos Salomão");
+    aux->p.Dia = 15;
+    aux->p.Mes = 3;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 10;
+    aux->p.Minuto = 30;
+  }
+  else if (a == 10){
+    strcpy(aux->p.Nome_paciente, "Amira Camilo Garrido");
+    aux->p.Idade = 20;
+    strcpy(aux->p.Telefone,"(35) 1234-5678");
+    strcpy(aux->p.Cep,"37701-000");
+    aux->p.Numero_casa = 20;
+    strcpy(aux->p.Resumo, "Encontra-se enfermo");
+    aux->p.Gravidade = 2;
+    strcpy(aux->p.Contato_emergencia,"(35) 1234-5678");
+    strcpy(aux->p.Nome_contato_emergencia, "Gelson Casado Portugal");
+    aux->p.Dia = 15;
+    aux->p.Mes = 2;
+    aux->p.Ano = 2021;
+    aux->p.Hora = 9;
+    aux->p.Minuto = 30;
+  }
+
+  if(aux->p.Mes < lp->inicio->p.Mes)
+  {
+    aux->anterior = lp->fim;
+    lp->fim->proximo = aux;
+    aux->proximo = lp->inicio;
+    lp->inicio->anterior = aux;
+    lp->inicio = aux;
+  }
+  else if(aux->p.Mes > lp->inicio->p.Mes)
+  {
+    aux->anterior = lp->fim;
+    lp->fim->proximo = aux;
+    aux->proximo = lp->inicio;
+    lp->inicio->anterior = aux;
+    lp->fim = aux;
+  }
+  else if(aux->p.Mes == lp->inicio->p.Mes)
+  {
+    if(aux->p.Dia > lp->inicio->p.Dia)
+    {
+      aux->anterior = lp->fim;
+      lp->fim->proximo = aux;
+      aux->proximo = lp->inicio;
+      lp->inicio->anterior = aux;
+      lp->fim = aux;
+    }
+    else if(aux->p.Dia < lp->inicio->p.Dia)
+    {
+      aux->anterior = lp->fim;
+      lp->fim->proximo = aux;
+      aux->proximo = lp->inicio;
+      lp->inicio->anterior = aux;
+      lp->inicio = aux;
+    }
+    else if(aux->p.Dia == lp->inicio->p.Dia)
+    {
+      if(aux->p.Hora < lp->inicio->p.Hora)
+      {
+        aux->anterior = lp->fim;
+        lp->fim->proximo = aux;
+        aux->proximo = lp->inicio;
+        lp->inicio->anterior = aux;
+        lp->inicio = aux;
+      }
+      else if(aux->p.Hora > lp->inicio->p.Hora)
+      {
+        aux->anterior = lp->fim;
+        lp->fim->proximo = aux;
+        aux->proximo = lp->inicio;
+        lp->inicio->anterior = aux;
+        lp->fim = aux;
+      }
+      else if(aux->p.Hora == lp->inicio->p.Hora)
+      {
+        if(aux->p.Minuto < lp->inicio->p.Minuto)
+        {
+          aux->anterior = lp->fim;
+          lp->fim->proximo = aux;
+          aux->proximo = lp->inicio;
+          lp->inicio->anterior = aux;
+          lp->inicio = aux;
+        }
+        else if(aux->p.Minuto > lp->inicio->p.Minuto)
+        {
+          aux->anterior = lp->fim;
+          lp->fim->proximo = aux;
+          aux->proximo = lp->inicio;
+          lp->inicio->anterior = aux;
+          lp->fim = aux;
+        }
+      }
+    }
+  }
+  
+
+  return 1;
 }
