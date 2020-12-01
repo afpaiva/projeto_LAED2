@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "/media/andrepaiva/8AC2CD4BC2CD3C67/Users/André/Desktop/PUC/LAED2/kiss"
+                ]
+            }
+        }
+    ],
+    "version": 4
+}

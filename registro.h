@@ -6,6 +6,7 @@
 
 typedef struct
 {
+    int IDpaciente;
     char Nome_paciente[30];
     int Idade;
     char Telefone[20];

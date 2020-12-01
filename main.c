@@ -33,6 +33,7 @@ utilizando a estrutura LISTA.
 // cabeçalhos de funções para chamadas de botões
 void button_event_cadastraPaciente(kiss_button *button, SDL_Event *e, int *draw, listaPaciente *lp);
 void button_event_acessaAgenda(kiss_button *button, SDL_Event *e, int *draw, listaPaciente lp);
+void button_event_mostraOcorrencias(kiss_button *button, SDL_Event *e, int *draw, listaPaciente lp);
 void button_event_mostraPacientes(kiss_button *button, SDL_Event *e, int *draw, listaPaciente lp);
 void button_event_opcaoSobre(kiss_button *button, SDL_Event *e, int *draw);
 void button_event_opcaoSair(kiss_button *button, SDL_Event *e, int *draw, int *quit);
@@ -115,7 +116,7 @@ int main(int argc, char **argv)
       kiss_window_event(&window, &e, &draw);
       button_event_cadastraPaciente(&button_cadastraPaciente, &e, &draw, &lp);
       button_event_acessaAgenda(&button_acessaAgenda, &e, &draw, lp);
-      // button_event_mostraOcorrencias(&button_mostraPacientes, &e, &draw, lp);
+      button_event_mostraOcorrencias(&button_mostraOcorrencias, &e, &draw, lp);
       button_event_mostraPacientes(&button_mostraPacientes, &e, &draw, lp);
       button_event_opcaoSobre(&button_opcaoSobre, &e, &draw);
       button_event_opcaoSair(&button_opcaoSair, &e, &draw, &quit);
@@ -158,7 +159,8 @@ void button_event_cadastraPaciente(kiss_button *button, SDL_Event *e, int *draw,
     cadastraPaciente(lp);
     CLEAR_SCREEN;
     telaInicial();
-    printf("\n\nConsulta marcada com sucesso!\n\n");
+    printf("\n\nConsulta marcada com sucesso! - utilize o menu lateral\n\n");
+    reset_cores();
   }
 }
 
@@ -168,6 +170,18 @@ void button_event_acessaAgenda(kiss_button *button, SDL_Event *e, int *draw, lis
     CLEAR_SCREEN;
     telaInicial();
     acessaAgenda(lp);
+    green();
+    printf("\nFim da agenda - utilize o menu lateral \n\n");
+    reset_cores();
+  }
+}
+
+void button_event_mostraOcorrencias(kiss_button *button, SDL_Event *e, int *draw, listaPaciente lp)
+{
+  if (kiss_button_event(button, e, draw)){
+    CLEAR_SCREEN;
+    telaInicial();
+    mostraOcorrencias(lp);
   }
 }
 
